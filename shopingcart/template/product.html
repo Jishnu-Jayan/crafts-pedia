@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadiscription %}
+        {{ product.description|truncatewords:155 }}
+{% endblock %}
+{% block title %}
+        {% if category %}
+        {{ model.name }} -Craft's Pedia
+        {% endif %}
+{% endblock %}
+{% block content %}
+
+
+    <div class="row my_pro_row_class">
+        <div class="mx_auto">
+            <p><a href="{% url 'shop:allProdCat' %}">home</a>|<a href="{{product.category.get_url}}">{{ product.category }}</a>|{{ product.name }}</p>
+        </div>
+    </div>
+        <div class="container">
+
+
+    <br>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <div style="min-width:18rem;">
+                <img  src="{{product.image.url}}" alt="{{product.name}}" style="height:800px;width:600px;padding-bottom:50px;">
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-12 col-sm-12 col-lg-6  ">
+            <div>
+                <h1 class="my_pro_title">{{product.name}}</h1>
+                <h4 class="my_title"> Description </h4>
+
+                <p class="text-justify my_prod_text">{{product.description}}</p>
+                <p>${{product.price}}</p>
+                    {% if product.stock == 0 %}
+                <p class="text-justify my_prod_text"> Out of stock </p>
+                    {% else %}
+                <a class="btn btn-outline-dark" href="{% url 'cart:add_cart' product.id %}">Add to cart</a>
+                    {% endif %}
+            </div>
+
+        </div>
+    </div>
+        </div>
+{% endblock %}

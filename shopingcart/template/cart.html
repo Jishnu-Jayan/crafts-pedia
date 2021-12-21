@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadiscription %}
+   This is the cart page .proceed to checkout!
+{% endblock %}
+{% block title %}
+Cart-Crafts_Pedia PVT LTD
+{% endblock %}
+{% block content %}
+{% if not cart_items %}
+<div>
+    <div>
+        <br>
+        <h1 class="text-center my_title">
+            Your shopping cart is empty
+        </h1>
+        <br>
+        <p class="text-center">
+            Please Click <a href="{% url 'shop:allProdCat' %}">Here</a> to contnue shopping
+        </p>
+
+    </div>
+</div>
+{% else %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="text-center my_title"> Your Shopping Cart</h1>
+        <br>
+    </div>
+    <div class="row mx_auto">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table my_custom_table">
+            <thead class="my_custom_thead">
+            <tr>
+                <th class="colspan=5">
+                    Your Cart Items
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cart_item in cart_items %}
+            <tr>
+                <td>
+                   <a href="{{cart_item.product.get_absolute_url}}" ><img src="{{cart_item.product.image.url}}" alt="cart_item" style="height:100px; width:100px;" class="float-left rounded custom_image"></a>
+                </td>
+                <td class="text-lef">
+                    <b>{{cart_item.product.name}}</b>
+                    <br>
+                    SKU:{{ cart_item.product.id }}
+                    <br>
+                    Price:$ {{ cart_item.product.price }}
+                    <br>
+                    Quantity: {{ cart_item.quantity }} x {{cart_item.product.name}}
+                </td>
+                <td>
+                    <b>${{ cart_item.sub_total}}</b>
+                </td>
+                {% if cart_item.quantity <= cart_item.product.stock %}
+
+                <td>
+                    <br>
+                     {% if cart_item.quantity > 1 %}
+                    &nbsp; <a href="{% url 'cart:delete' cart_item.product.id %}" class="custom_a"><i class="fas fa-minus-square custom_icon">  </i></a>
+                    {% endif %}
+                    {% if cart_item.quantity < cart_item.product.stock %}
+                    &nbsp;<a href="{% url 'cart:add_cart' cart_item.product.id %}" class="custom_a"> <i class="fas fa-plus-square custom_icon"></i></a>
+                    {% endif %}
+                    &nbsp; <a href="{% url 'cart:item_delete' cart_item.product.id %}" class="custom_a"><i class="fas fa-trash custom_icon"></i></a>
+
+                </td>
+                {% else %}
+                   <td>
+
+                       &nbsp; <a href="{% url 'cart:delete' cart_item.product.id %}" class="custom_a"><i class="fas fa-minus-square custom_icon">  </i></a>
+                  &nbsp; <a href="{% url 'cart:item_delete' cart_item.product.id %}" class="custom_a"><i class="fas fa-trash custom_icon"></i></a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+
+             <table class="table my_custom_table">
+            <thead class="my_custom_thead">
+            <tr>
+                <th>
+                    Check out
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <td>
+                    Review your item before proceeding for payment!
+                </td>
+            </tr>
+                 <tr>
+                     <td class="sub_total">
+                         <strong>Your Sub-Total is : ${{ total }}</strong>
+                     </td>
+                 </tr>
+             </table>
+                <div class="mx_auto">
+                    <a href="{% url 'shop:allProdCat' %}" class="btn btn-outline-dark " > Continue shopping </a>
+                </div>
+
+            </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadiscription %}
+        Welcome to shopfree and shopfree!
+{% endblock %}
+{% block title %}
+search results
+{% endblock %}
+{% block content %}
+    <div>
+        <p class="text-center search_text"> Search results for:<b>{{query}}</b></p>
+    </div>
+        <div class="container">
+            <div class="row mx_auto">
+             {% for i in products %}
+            <div class="my_bottom_margin col-9 col-sm-12 col-md-4 xol-lg-4" style="padding:20px;">
+                <div class="card text-center" style="width:18rem; padding:15px;">
+                    <a href="{{i.get_url}}"> <img class="card-img-top my_image" src="{{i.image.url}}" alt="{{i.name}}" height="200px;" width="150px;" ></a>
+                     <div class="card-body">
+                         <h4>{{i.name}}</h4>
+                        <p>${{ i.price }}</p>
+                    </div>
+                </div>
+            </div>
+                {% empty %}
+                <div class="mx_auto">
+                    <p class="text_center search_text">0 results found</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+{% endblock %}
